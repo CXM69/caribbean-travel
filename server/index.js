@@ -33,7 +33,7 @@ app.get('/search-flights', async (req, res) => {
     }
 
     const response = await axios.get(
-      'https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchFlights',
+      'https://sky-scrapper3.p.rapidapi.com/api/v1/flights/searchFlights',
       {
         params: {
           originSkyId: origin,
@@ -46,7 +46,7 @@ app.get('/search-flights', async (req, res) => {
         },
         headers: {
           'X-RapidAPI-Key': rapidApiKey,
-          'X-RapidAPI-Host': 'sky-scrapper.p.rapidapi.com',
+          'X-RapidAPI-Host': 'sky-scrapper3.p.rapidapi.com',
         },
         timeout: 15000,
       }
