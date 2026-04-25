@@ -10,6 +10,26 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'client')));
 
 const PORT = process.env.PORT || 5050;
+const RAPIDAPI_HOST = 'sky-scrapper.p.rapidapi.com';
+
+async function searchAirport(query, rapidApiKey) {
+  const response = await axios.get(
+    `https://${RAPIDAPI_HOST}/api/v1/flights/searchAirport`,
+    {
+      params: {
+        query,
+        locale: 'en-US',
+      },
+      headers: {
+        'X-RapidAPI-Key': rapidApiKey,
+        'X-RapidAPI-Host': RAPIDAPI_HOST,
+      },
+      timeout: 15000,
+    }
+  );
+
+  return response.data?.data?.[0] || null;
+}
 
 // Test route
 app.get('/', (req, res) => {
@@ -32,12 +52,25 @@ app.get('/search-flights', async (req, res) => {
       return res.status(500).json({ error: 'Server is missing RAPIDAPI_KEY.' });
     }
 
+    const [originLookup, destinationLookup] = await Promise.all([
+      searchAirport(origin, rapidApiKey),
+      searchAirport(destination, rapidApiKey),
+    ]);
+
+    if (!originLookup || !destinationLookup) {
+      return res.status(404).json({
+        error: 'Could not resolve one or both locations. Try a city or airport code.',
+      });
+    }
+
     const response = await axios.get(
-      'https://sky-scrapper3.p.rapidapi.com/api/v1/flights/searchFlights',
+      `https://${RAPIDAPI_HOST}/api/v1/flights/searchFlights`,
       {
         params: {
-          originSkyId: origin,
-          destinationSkyId: destination,
+          originSkyId: originLookup.skyId,
+          destinationSkyId: destinationLookup.skyId,
+          originEntityId: originLookup.entityId,
+          destinationEntityId: destinationLookup.entityId,
           date,
           adults: 1,
           currency: 'USD',
@@ -46,7 +79,7 @@ app.get('/search-flights', async (req, res) => {
         },
         headers: {
           'X-RapidAPI-Key': rapidApiKey,
-          'X-RapidAPI-Host': 'sky-scrapper3.p.rapidapi.com',
+          'X-RapidAPI-Host': RAPIDAPI_HOST,
         },
         timeout: 15000,
       }
