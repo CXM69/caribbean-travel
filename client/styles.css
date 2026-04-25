@@ -36,47 +36,41 @@ body {
 .hero {
   position: relative;
   overflow: hidden;
-  min-height: 360px;
+  min-height: 480px;
   padding: 32px;
   border-radius: 34px;
-  background:
-    linear-gradient(180deg, rgba(11, 94, 191, 0.22), rgba(0, 0, 0, 0)),
-    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.48), transparent 18%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0)),
-    linear-gradient(180deg, #0a6dde 0%, #3b99f0 44%, #52d2d4 69%, #f8f2e5 69.5%, #f8f2e5 100%);
+  display: flex;
+  align-items: flex-end;
   box-shadow: 0 28px 80px rgba(5, 46, 95, 0.22);
+  background: #0a6dde;
 }
 
-.hero::before,
+.hero-media {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(6, 41, 88, 0.14), rgba(7, 43, 73, 0.1)),
+    linear-gradient(0deg, rgba(9, 30, 43, 0.34), rgba(9, 30, 43, 0)),
+    url("/hero-beach.svg");
+  background-size: cover;
+  background-position: center center;
+  transform: scale(1.02);
+}
+
 .hero::after {
   content: "";
   position: absolute;
-  inset: auto;
-  border-radius: 999px;
-  opacity: 0.95;
-}
-
-.hero::before {
-  right: -90px;
-  bottom: 54px;
-  width: 260px;
-  height: 260px;
-  background: radial-gradient(circle, rgba(57, 116, 36, 0.86) 0%, rgba(57, 116, 36, 0) 72%);
-  filter: blur(10px);
-}
-
-.hero::after {
-  left: -120px;
-  bottom: -110px;
-  width: 380px;
-  height: 230px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 70%);
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.36), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
 }
 
 .hero-copy {
   position: relative;
   z-index: 1;
   max-width: 620px;
+  padding-bottom: 8px;
 }
 
 .card {
@@ -287,7 +281,7 @@ button:disabled {
   }
 
   .hero {
-    min-height: 300px;
+    min-height: 360px;
     padding: 24px;
   }
 
