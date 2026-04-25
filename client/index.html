@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caribbean Travel</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="card">
+        <p class="eyebrow">Caribbean Travel</p>
+        <h1>Search Flights</h1>
+        <form id="flight-form" class="form">
+          <label>
+            Origin
+            <input id="origin" name="origin" placeholder="JFK" required />
+          </label>
+          <label>
+            Destination
+            <input id="destination" name="destination" placeholder="SJU" required />
+          </label>
+          <label>
+            Date
+            <input id="date" name="date" type="date" required />
+          </label>
+          <button type="submit">Search</button>
+        </form>
+        <p id="status" class="status">Enter a route and search.</p>
+        <ul id="results" class="results"></ul>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+  </html>

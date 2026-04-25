@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Search</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --panel: #fffaf3;
+        --ink: #1b2b34;
+        --accent: #0f766e;
+        --accent-dark: #115e59;
+        --line: #d8cdbd;
+        --muted: #6b7280;
+        --danger: #b91c1c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(15, 118, 110, 0.18), transparent 28%),
+          linear-gradient(180deg, #f8f3ea 0%, var(--bg) 100%);
+      }
+
+      .page {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 18px 48px rgba(27, 43, 52, 0.1);
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--accent-dark);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.78rem;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: clamp(2rem, 5vw, 3.4rem);
+      }
+
+      .intro {
+        margin: 0 0 24px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .notice {
+        margin: 0 0 20px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: #eef7f6;
+        border: 1px solid #b7d8d4;
+        color: #11403c;
+        line-height: 1.45;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        font-weight: 600;
+      }
+
+      input,
+      button {
+        font: inherit;
+        border-radius: 14px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      button {
+        margin-top: 18px;
+        border: 0;
+        padding: 14px 18px;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        opacity: 0.7;
+        cursor: wait;
+      }
+
+      .status {
+        min-height: 24px;
+        margin: 18px 0 0;
+      }
+
+      .status.error {
+        color: var(--danger);
+      }
+
+      .results {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0 0;
+        display: grid;
+        gap: 12px;
+      }
+
+      .result-card {
+        display: grid;
+        gap: 6px;
+        padding: 16px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .result-card strong {
+        font-size: 1.1rem;
+      }
+
+      .view-flight {
+        display: inline-flex;
+        width: fit-content;
+        margin-top: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="card">
+        <p class="eyebrow">Caribbean Travel</p>
+        <h1>Standalone Flight Search</h1>
+        <p class="intro">
+          Open this file directly in Chrome or Safari. Enter your RapidAPI key for the current
+          page session, then search flights.
+        </p>
+        <p class="notice">
+          This version is browser-only. Your API key is used only in this page and is not stored,
+          but it is still a client-side request, so it is not suitable for production use.
+        </p>
+
+        <form id="flight-form">
+          <div class="grid">
+            <label>
+              RapidAPI Key
+              <input id="apiKey" type="password" placeholder="Paste your RapidAPI key" required />
+            </label>
+            <label>
+              Origin
+              <input id="origin" placeholder="JFK" required />
+            </label>
+            <label>
+              Destination
+              <input id="destination" placeholder="SJU" required />
+            </label>
+            <label>
+              Date
+              <input id="date" type="date" required />
+            </label>
+          </div>
+          <button id="searchButton" type="submit">Search</button>
+        </form>
+
+        <p id="status" class="status">Enter a route and search.</p>
+        <ul id="results" class="results"></ul>
+      </section>
+    </main>
+
+    <script>
+      const form = document.getElementById('flight-form');
+      const statusEl = document.getElementById('status');
+      const resultsEl = document.getElementById('results');
+      const searchButton = document.getElementById('searchButton');
+
+      function setStatus(message, isError = false) {
+        statusEl.textContent = message;
+        statusEl.className = isError ? 'status error' : 'status';
+      }
+
+      function normalizeFlights(payload) {
+        const itineraries = payload?.data?.itineraries || [];
+        return itineraries.map((flight) => ({
+          airline: flight.legs?.[0]?.carriers?.marketing?.[0]?.name || 'Unknown airline',
+          departure: flight.legs?.[0]?.departure || 'N/A',
+          arrival: flight.legs?.[0]?.arrival || 'N/A',
+          price: flight.price?.formatted || 'N/A',
+          deeplink: flight.deeplink || null,
+        }));
+      }
+
+      function renderFlights(flights) {
+        resultsEl.innerHTML = '';
+
+        flights.forEach((flight) => {
+          const item = document.createElement('li');
+          item.className = 'result-card';
+          item.innerHTML = `
+            <strong>${flight.airline}</strong>
+            <span>Departure: ${flight.departure}</span>
+            <span>Arrival: ${flight.arrival}</span>
+            <span>Price: ${flight.price}</span>
+            ${
+              flight.deeplink
+                ? `<a class="view-flight" href="${flight.deeplink}" target="_blank" rel="noreferrer">View Flight</a>`
+                : '<span>No deeplink available.</span>'
+            }
+          `;
+          resultsEl.appendChild(item);
+        });
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const apiKey = document.getElementById('apiKey').value.trim();
+        const origin = document.getElementById('origin').value.trim();
+        const destination = document.getElementById('destination').value.trim();
+        const date = document.getElementById('date').value;
+
+        resultsEl.innerHTML = '';
+
+        if (!apiKey || !origin || !destination || !date) {
+          setStatus('RapidAPI key, origin, destination, and date are required.', true);
+          return;
+        }
+
+        searchButton.disabled = true;
+        setStatus('Searching flights...');
+
+        try {
+          const params = new URLSearchParams({
+            originSkyId: origin,
+            destinationSkyId: destination,
+            date,
+            adults: '1',
+            currency: 'USD',
+            countryCode: 'US',
+            market: 'en-US',
+          });
+
+          const response = await fetch(
+            `https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchFlights?${params.toString()}`,
+            {
+              method: 'GET',
+              headers: {
+                'X-RapidAPI-Key': apiKey,
+                'X-RapidAPI-Host': 'sky-scrapper.p.rapidapi.com',
+              },
+            }
+          );
+
+          const payload = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            throw new Error(payload.message || payload.error || 'Flight API failed.');
+          }
+
+          const flights = normalizeFlights(payload);
+
+          if (!flights.length) {
+            setStatus('No flights found for that search.', true);
+            return;
+          }
+
+          setStatus(`Found ${flights.length} flight option(s).`);
+          renderFlights(flights);
+        } catch (error) {
+          const message = error.message.includes('Failed to fetch')
+            ? 'Browser request failed. RapidAPI may be blocking direct browser access or CORS.'
+            : error.message;
+          setStatus(message, true);
+        } finally {
+          searchButton.disabled = false;
+        }
+      });
+    </script>
+  </body>
+  </html>
