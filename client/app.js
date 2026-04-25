@@ -44,10 +44,14 @@ form.addEventListener('submit', async (event) => {
         : `<span class="view-flight disabled">View Flight</span>`;
 
       item.innerHTML = `
-        <strong>${flight.airline || 'Unknown airline'}</strong>
-        <span>Price: ${flight.price || 'N/A'}</span>
-        <span>Departure: ${flight.departure || 'N/A'}</span>
-        <span>Arrival: ${flight.arrival || 'N/A'}</span>
+        <div class="result-top">
+          <strong>${flight.airline || 'Unknown airline'}</strong>
+          <span class="result-price">${flight.price || 'N/A'}</span>
+        </div>
+        <div class="result-times">
+          <span><b>Departure</b> ${flight.departure || 'N/A'}</span>
+          <span><b>Arrival</b> ${flight.arrival || 'N/A'}</span>
+        </div>
         ${viewFlightMarkup}
       `;
       resultsEl.appendChild(item);

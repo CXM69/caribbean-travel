@@ -8,38 +8,50 @@
   </head>
   <body>
     <main class="page">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Caribbean Travel</p>
+          <h1>Find flights that feel like the trip already started.</h1>
+          <p class="intro">
+            A brighter tropical search experience for quick island routes. No payments are
+            processed and no traveler data is stored.
+          </p>
+          <div class="hero-meta">
+            <span>Ocean-inspired search</span>
+            <span>Flight deeplinks only</span>
+            <span>Fast route lookup</span>
+          </div>
+        </div>
+      </section>
+
       <section class="card">
-        <p class="eyebrow">Caribbean Travel</p>
-        <h1>Search Flights</h1>
-        <p class="intro">
-          Search one-way flight options with a direct provider lookup. No payments are processed
-          and no traveler data is stored.
-        </p>
         <form id="flight-form" class="form">
-          <label>
-            Origin city or airport code
-            <input
-              id="origin"
-              name="origin"
-              placeholder="New York or JFK"
-              autocomplete="off"
-              required
-            />
-          </label>
-          <label>
-            Destination city or airport code
-            <input
-              id="destination"
-              name="destination"
-              placeholder="San Juan or SJU"
-              autocomplete="off"
-              required
-            />
-          </label>
-          <label>
-            Departure date
-            <input id="date" name="date" type="date" required />
-          </label>
+          <div class="field-grid">
+            <label>
+              Origin city or airport code
+              <input
+                id="origin"
+                name="origin"
+                placeholder="New York or JFK"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <label>
+              Destination city or airport code
+              <input
+                id="destination"
+                name="destination"
+                placeholder="San Juan or SJU"
+                autocomplete="off"
+                required
+              />
+            </label>
+            <label>
+              Departure date
+              <input id="date" name="date" type="date" required />
+            </label>
+          </div>
           <button id="search-button" type="submit">Search Flights</button>
         </form>
         <p id="status" class="status">Enter a route and search.</p>
@@ -48,4 +60,4 @@
     </main>
     <script src="/app.js"></script>
   </body>
-  </html>
+</html>
