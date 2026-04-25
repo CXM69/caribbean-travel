@@ -51,7 +51,7 @@ body {
   background:
     linear-gradient(180deg, rgba(6, 41, 88, 0.14), rgba(7, 43, 73, 0.1)),
     linear-gradient(0deg, rgba(9, 30, 43, 0.34), rgba(9, 30, 43, 0)),
-    url("/hero-beach.svg");
+    url("/hero-beach.jpg");
   background-size: cover;
   background-position: center center;
   transform: scale(1.02);
