@@ -8,6 +8,17 @@
   </head>
   <body>
     <main class="page">
+      <section class="topbar">
+        <div class="brand-lockup">
+          <span class="brand-mark"></span>
+          <div>
+            <p class="brand-name">Scoperta Trips</p>
+            <p class="brand-tag">Caribbean flight discovery</p>
+          </div>
+        </div>
+        <div class="topbar-note">Island routes only. No booking data stored.</div>
+      </section>
+
       <section class="hero">
         <div class="hero-media" aria-hidden="true"></div>
         <div class="hero-copy">
@@ -26,6 +37,16 @@
       </section>
 
       <section class="card">
+        <div class="search-header">
+          <div>
+            <p class="section-kicker">Flight Search</p>
+            <h2>Build the route, then jump straight into the fare.</h2>
+          </div>
+          <div class="search-badges">
+            <span>Real-time lookup</span>
+            <span>View-flight deeplinks</span>
+          </div>
+        </div>
         <form id="flight-form" class="form">
           <div class="field-grid">
             <label>
@@ -55,8 +76,101 @@
           </div>
           <button id="search-button" type="submit">Search Flights</button>
         </form>
+        <div class="quick-picks">
+          <span class="quick-picks-label">Try a route:</span>
+          <button class="quick-pick" type="button" data-origin="JFK" data-destination="SJU">
+            JFK to San Juan
+          </button>
+          <button class="quick-pick" type="button" data-origin="MIA" data-destination="PUJ">
+            Miami to Punta Cana
+          </button>
+          <button class="quick-pick" type="button" data-origin="ATL" data-destination="MBJ">
+            Atlanta to Montego Bay
+          </button>
+        </div>
         <p id="status" class="status">Enter a route and search.</p>
         <ul id="results" class="results"></ul>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel panel-featured">
+          <div class="panel-heading">
+            <p class="section-kicker">Featured Islands</p>
+            <h2>Where the current visual direction is headed.</h2>
+          </div>
+          <div class="destination-grid">
+            <div class="destination-card">
+              <span class="destination-label">Puerto Rico</span>
+              <strong>San Juan</strong>
+              <p>Fast-entry Caribbean hub with easy U.S. routing and city-beach contrast.</p>
+            </div>
+            <div class="destination-card">
+              <span class="destination-label">Dominican Republic</span>
+              <strong>Punta Cana</strong>
+              <p>Resort-heavy inventory, quick transfers, and high-volume fare competition.</p>
+            </div>
+            <div class="destination-card">
+              <span class="destination-label">Jamaica</span>
+              <strong>Montego Bay</strong>
+              <p>Strong leisure demand, short-stay traffic, and clean nonstop route options.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <p class="section-kicker">How It Works</p>
+            <h2>Simple front-end flow.</h2>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <span class="step-number">01</span>
+              <div>
+                <strong>Search a route</strong>
+                <p>Enter an origin, destination, and departure date.</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-number">02</span>
+              <div>
+                <strong>Compare the cards</strong>
+                <p>Review airline, timing, and fare without adding traveler details.</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-number">03</span>
+              <div>
+                <strong>Open the provider link</strong>
+                <p>Jump to the deeplink to continue outside this app.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel panel-wide">
+        <div class="panel-heading">
+          <p class="section-kicker">Product Direction</p>
+          <h2>What this front end should grow into next.</h2>
+        </div>
+        <div class="vision-grid">
+          <div class="vision-card">
+            <strong>Fare calendar</strong>
+            <p>Show cheaper nearby dates instead of forcing a single-day search every time.</p>
+          </div>
+          <div class="vision-card">
+            <strong>Island collections</strong>
+            <p>Group routes by vibe: family beach, adults-only resort, city-and-sea, quick weekend.</p>
+          </div>
+          <div class="vision-card">
+            <strong>Departure-region presets</strong>
+            <p>Let users switch quickly between New York, Florida, Atlanta, and Texas origin clusters.</p>
+          </div>
+          <div class="vision-card">
+            <strong>Saved route boards</strong>
+            <p>Track a handful of repeated searches without collecting payment or traveler data.</p>
+          </div>
+        </div>
       </section>
     </main>
     <script src="/app.js"></script>

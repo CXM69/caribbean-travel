@@ -2,18 +2,51 @@ const form = document.getElementById('flight-form');
 const statusEl = document.getElementById('status');
 const resultsEl = document.getElementById('results');
 const searchButton = document.getElementById('search-button');
+const originInput = document.getElementById('origin');
+const destinationInput = document.getElementById('destination');
+const dateInput = document.getElementById('date');
+const quickPickButtons = document.querySelectorAll('.quick-pick');
 
 function setStatus(message, isError = false) {
   statusEl.textContent = message;
   statusEl.className = isError ? 'status error' : 'status';
 }
 
+function getDefaultDate() {
+  const date = new Date();
+  date.setDate(date.getDate() + 21);
+  return date.toISOString().split('T')[0];
+}
+
+function normalizeErrorMessage(message) {
+  if (!message) {
+    return 'Flight search failed.';
+  }
+
+  if (message.toLowerCase().includes('too many requests')) {
+    return 'Flight provider rate limit reached. Try again later or upgrade the API plan.';
+  }
+
+  return message;
+}
+
+dateInput.value = getDefaultDate();
+
+quickPickButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    originInput.value = button.dataset.origin || '';
+    destinationInput.value = button.dataset.destination || '';
+    originInput.focus();
+    setStatus('Route prefilled. Adjust anything you want, then search.');
+  });
+});
+
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const origin = document.getElementById('origin').value.trim();
-  const destination = document.getElementById('destination').value.trim();
-  const date = document.getElementById('date').value;
+  const origin = originInput.value.trim();
+  const destination = destinationInput.value.trim();
+  const date = dateInput.value;
 
   resultsEl.innerHTML = '';
   searchButton.disabled = true;
@@ -57,7 +90,7 @@ form.addEventListener('submit', async (event) => {
       resultsEl.appendChild(item);
     });
   } catch (error) {
-    setStatus(error.message || 'Flight search failed.', true);
+    setStatus(normalizeErrorMessage(error.message), true);
   } finally {
     searchButton.disabled = false;
     searchButton.textContent = 'Search Flights';

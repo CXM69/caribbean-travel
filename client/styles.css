@@ -33,6 +33,45 @@ body {
   padding: 28px 20px 56px;
 }
 
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 18px;
+  color: #fff;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffd18b, #ff8f3d);
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.12);
+}
+
+.brand-name,
+.brand-tag {
+  margin: 0;
+}
+
+.brand-name {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.brand-tag,
+.topbar-note {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.84);
+}
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -86,6 +125,52 @@ body {
   border-radius: 28px;
   padding: 28px;
   box-shadow: 0 20px 60px rgba(18, 48, 71, 0.16);
+}
+
+.search-header,
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+}
+
+.search-header {
+  margin-bottom: 18px;
+}
+
+.search-header h2,
+.panel-heading h2 {
+  margin: 4px 0 0;
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  line-height: 1.02;
+  color: var(--ink);
+}
+
+.search-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.search-badges span,
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(71, 210, 210, 0.15);
+  color: #11636f;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.section-kicker {
+  margin: 0 0 4px;
+  width: fit-content;
 }
 
 .eyebrow {
@@ -200,6 +285,33 @@ button:disabled {
   color: #b42318;
 }
 
+.quick-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.quick-picks-label {
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.quick-pick {
+  min-width: 0;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--ink);
+  box-shadow: none;
+  border: 1px solid rgba(21, 48, 71, 0.08);
+}
+
+.quick-pick:hover {
+  background: rgba(71, 210, 210, 0.14);
+}
+
 .results {
   list-style: none;
   padding: 0;
@@ -275,9 +387,110 @@ button:disabled {
   color: #fff;
 }
 
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: 20px;
+  margin-top: 26px;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 18px 44px rgba(18, 48, 71, 0.1);
+}
+
+.panel-wide {
+  margin-top: 20px;
+}
+
+.destination-grid,
+.vision-grid {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.destination-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.destination-card,
+.vision-card {
+  padding: 18px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(239, 248, 250, 0.9));
+  border: 1px solid rgba(21, 48, 71, 0.08);
+}
+
+.destination-card strong,
+.vision-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.1rem;
+}
+
+.destination-card p,
+.vision-card p,
+.step p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.destination-label {
+  color: #11636f;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.steps {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(21, 48, 71, 0.08);
+}
+
+.step-number {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #56dbd2, #2ba7d0);
+  color: #fff;
+  font-weight: 800;
+}
+
+.vision-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 @media (max-width: 780px) {
   .page {
     padding: 16px 14px 40px;
+  }
+
+  .topbar,
+  .search-header,
+  .panel-heading {
+    flex-direction: column;
+    align-items: start;
   }
 
   .hero {
@@ -301,5 +514,11 @@ button:disabled {
 
   .result-top {
     flex-direction: column;
+  }
+
+  .content-grid,
+  .destination-grid,
+  .vision-grid {
+    grid-template-columns: 1fr;
   }
 }
