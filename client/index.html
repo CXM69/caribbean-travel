@@ -11,20 +11,36 @@
       <section class="card">
         <p class="eyebrow">Caribbean Travel</p>
         <h1>Search Flights</h1>
+        <p class="intro">
+          Search one-way flight options with a direct provider lookup. No payments are processed
+          and no traveler data is stored.
+        </p>
         <form id="flight-form" class="form">
           <label>
-            Origin
-            <input id="origin" name="origin" placeholder="JFK" required />
+            Origin airport or sky ID
+            <input
+              id="origin"
+              name="origin"
+              placeholder="JFK"
+              autocomplete="off"
+              required
+            />
           </label>
           <label>
-            Destination
-            <input id="destination" name="destination" placeholder="SJU" required />
+            Destination airport or sky ID
+            <input
+              id="destination"
+              name="destination"
+              placeholder="SJU"
+              autocomplete="off"
+              required
+            />
           </label>
           <label>
-            Date
+            Departure date
             <input id="date" name="date" type="date" required />
           </label>
-          <button type="submit">Search</button>
+          <button id="search-button" type="submit">Search Flights</button>
         </form>
         <p id="status" class="status">Enter a route and search.</p>
         <ul id="results" class="results"></ul>

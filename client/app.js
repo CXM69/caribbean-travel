@@ -1,6 +1,12 @@
 const form = document.getElementById('flight-form');
 const statusEl = document.getElementById('status');
 const resultsEl = document.getElementById('results');
+const searchButton = document.getElementById('search-button');
+
+function setStatus(message, isError = false) {
+  statusEl.textContent = message;
+  statusEl.className = isError ? 'status error' : 'status';
+}
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -10,23 +16,25 @@ form.addEventListener('submit', async (event) => {
   const date = document.getElementById('date').value;
 
   resultsEl.innerHTML = '';
-  statusEl.textContent = 'Searching flights...';
+  searchButton.disabled = true;
+  searchButton.textContent = 'Searching...';
+  setStatus('Searching flights...');
 
   try {
     const params = new URLSearchParams({ origin, destination, date });
     const response = await fetch(`/search-flights?${params.toString()}`);
-    const flights = await response.json();
+    const flights = await response.json().catch(() => []);
 
     if (!response.ok) {
-      throw new Error(flights.error || 'Flight search failed');
+      throw new Error(flights.error || 'Flight search failed.');
     }
 
     if (!flights.length) {
-      statusEl.textContent = 'No flights found for that search.';
+      setStatus('No flights found for that search.', true);
       return;
     }
 
-    statusEl.textContent = `Found ${flights.length} flight option(s).`;
+    setStatus(`Found ${flights.length} flight option(s).`);
 
     flights.forEach((flight) => {
       const item = document.createElement('li');
@@ -45,6 +53,9 @@ form.addEventListener('submit', async (event) => {
       resultsEl.appendChild(item);
     });
   } catch (error) {
-    statusEl.textContent = error.message;
+    setStatus(error.message || 'Flight search failed.', true);
+  } finally {
+    searchButton.disabled = false;
+    searchButton.textContent = 'Search Flights';
   }
 });
